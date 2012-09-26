@@ -78,17 +78,22 @@ void voting_print (std::ostream& w, int i, int j, int v) {
     w << i << std::endl;}
 
 // -------------
-// collatz_solve
+// -------------
+// voting_solve
 // -------------
 
 /**
- * read, eval, print loop
  * @param r a std::istream
  * @param w a std::ostream
  */
 void collatz_solve (std::istream& r, std::ostream& w) {
     int testNumber;
-    
-    
-    
-        collatz_print(w, winnerNAme);
+    char line[];
+    getline(r,line,char delim);
+    testNumber = atoi(line);
+    char winner[];
+    int i;
+    for (int i=0; i<testNumber; i++) {
+        voting_eval();
+    }
+
