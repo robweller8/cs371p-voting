@@ -1,5 +1,4 @@
 
-
 /*
 To run the program:
     % g++ -pedantic -std=c++0x -Wall RunVoting.c++ -o RunVoting.c++.app
@@ -87,6 +86,7 @@ void voting_solve (std::istream& r, std::ostream& w,){
                 vote.push_back(rank);
             }
             int place = vote.front();
+            vote.erase(vote.begin());
             voteList[place].push_back(vote);
             voteCounter++;
         }
@@ -99,8 +99,8 @@ void voting_solve (std::istream& r, std::ostream& w,){
         }
         else{
             int loserCounter;
-            std::vector<int> loserList
-            check_Losers(voteList,voteCounter,candidates,loserCounter,loserList);
+            std::vector<int> loserList;
+            checkLosers(voteList,voteCounter,candidates,loserCounter,loserList);
             revote();
         }
         
@@ -133,6 +133,23 @@ int checkWinner(std::vector<std::vector<std::vector<int>>>& voteList, int candid
         }
         else{
             return -1;
+        }
+    }
+}
+// -------------
+// checkLosers
+// -------------
+void checkLosers (std::vector<std::vector<std::vector<int>>>& voteList, int voteCounter, int candidates, int& loserCounter, std::vector<int>& loserList;){
+    int minVote = 1000;
+    for (int i=0; i<=candidates; i++) {
+        if (voteList[i].size() <= minVote) {
+            minVote = voteList[i].size();
+        }
+    }
+    for (int j=0; j<candidates; j++) {
+        if (voteList[j].size() == minVote) {
+            loserList.push_back(j)
+            loserCounter++;
         }
     }
 }
@@ -169,20 +186,5 @@ void voting_solve (std::istream& r, std::ostream& w) {
     for (int i=0; i<testNumber; i++) {
         voting_eval(r,w);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
