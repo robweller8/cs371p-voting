@@ -113,6 +113,29 @@ void voting_solve (std::istream& r, std::ostream& w,){
         printWinner
 
 }
+// -------------
+// checkWinner
+// -------------
+
+int checkWinner(std::vector<std::vector<std::vector<int>>>& voteList, int candidates, int voteCounter){
+    int votesNeeded;
+    if (voteCounter % 2 == 0) {
+        votesNeeded = voteCounter/2;
+    }
+    else{
+        votesNeeded = (voteCounter+1)/2;
+    }
+    int votes;
+    for (int i=0; i<candidates; i++) {
+        votes = voteList[i].size();
+        if (votes>= votesNeeded) {
+            return i;
+        }
+        else{
+            return -1;
+        }
+    }
+}
 
 // -------------
 // voting_print
@@ -146,6 +169,18 @@ void voting_solve (std::istream& r, std::ostream& w) {
     for (int i=0; i<testNumber; i++) {
         voting_eval(r,w);
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
