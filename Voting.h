@@ -1,13 +1,9 @@
-// -------------------------------
-// projects/collatz/RunCollatz.c++
-// Copyright (C) 2012
-// Glenn P. Downing
-// -------------------------------
+
 
 /*
 To run the program:
     % g++ -pedantic -std=c++0x -Wall RunVoting.c++ -o RunVoting.c++.app
-    % valgrind RunCollatz.c++.app < RunVoting.in >& RunVoting.out
+    % valgrind RunVoting.c++.app < RunVoting.in >& RunVoting.out
 
 To configure Doxygen:
     % doxygen -g
@@ -36,7 +32,7 @@ To document the program:
 
 #include <iostream> // cin, cout, ios_base
 
-#include "Collatz.h"
+#include "Voting.h"
 
 // ----
 // main
@@ -59,10 +55,64 @@ int main () {
 // ------------
 // voting_eval
 // ------------
+void voting_solve (std::istream& r, std::ostream& w,){
+    int candidates;
+    char line[];
+    getline(r,line,char delim);
+    candidates = atoi(line);
+    std::vector<string> candidateList;
+    
+    //fill list of candidates
+    
+    for (int i=0; i<candidates; i++) {
+        getline(r,line,char delim);
+        candidates.push_back(line);
+    }
+    
+    //read and fill first round of votes
+    std::vector<std::vector<std::vector<int>>> voteList;
+    std::vector<int> vote;
+    int whiteLine = 0;
+    int voteCounter;
+    while (whiteLine == 0) {
+        char tempVote [candidates];
+        getline(r,tempVote,char delim);
+        if (strcmp(tempVote,"")==0) {
+            whiteLine = 1;
+        }
+        else{
+            int rank;
+            for (int j=0; j<candidates; j++) {
+                rank = atoi(tempVote[j]);
+                vote.push_back(rank);
+            }
+            int place = vote.front();
+            voteList[place].push_back(vote);
+            voteCounter++;
+        }
+    }
+    int isTied = 0;
+    // loop while there is no winner
+    while (checkWinner(voteList,candidates,voteCounter)<0 || isTied == 0) {
+        if (check_tied() != 0) {
+            isTied = 1
+        }
+        else{
+            int loserCounter;
+            std::vector<int> loserList
+            check_Losers(voteList,voteCounter,candidates,loserCounter,loserList);
+            revote();
+        }
+        
+        
+    }
+    if(isTied == 1){
+        printTiedCandidates   
+    }
+    else
+        printWinner
 
-
-
-
+}
 
 // -------------
 // voting_print
@@ -78,7 +128,6 @@ void voting_print (std::ostream& w, int i, int j, int v) {
     w << i << std::endl;}
 
 // -------------
-// -------------
 // voting_solve
 // -------------
 
@@ -86,14 +135,19 @@ void voting_print (std::ostream& w, int i, int j, int v) {
  * @param r a std::istream
  * @param w a std::ostream
  */
-void collatz_solve (std::istream& r, std::ostream& w) {
+void voting_solve (std::istream& r, std::ostream& w) {
     int testNumber;
     char line[];
     getline(r,line,char delim);
     testNumber = atoi(line);
     char winner[];
     int i;
+    getline(r,line,char delim);
     for (int i=0; i<testNumber; i++) {
-        voting_eval();
+        voting_eval(r,w);
     }
+
+
+
+
 
