@@ -1,5 +1,4 @@
 
-
 /*
 To run the program:
     % g++ -pedantic -std=c++0x -Wall RunVoting.c++ -o RunVoting.c++.app
@@ -93,8 +92,8 @@ void voting_solve (std::istream& r, std::ostream& w,){
         }
     }
     int isTied = 0;
-    // loop while there is no winner
-    while (checkWinner(voteList,candidates,voteCounter,candidateList)<0 || isTied == 0) {
+    // loop while there is no winner or tie
+    while (checkWinner(voteList,candidates,voteCounter,candidateList)<0 || checkTie(voteList,candidates,voteCounter,candidateList)< 0 {
         if (check_tied() != 0) {
             isTied = 1
         }
@@ -134,11 +133,37 @@ int checkWinner(std::vector<std::vector<std::vector<int>>>& voteList, int candid
                 cout << candidateList[i][j];
             }
             cout << endl;
+            return 0;
         }
         else{
             return -1;
         }
     }
+}
+// -------------
+// checkWinner
+// -------------
+           
+int checkTie(std::vector<std::vector<std::vector<int>>>& voteList, int candidates, int voteCounter,std::vector<string> candidateList){
+    int isTie = 1;
+    int tiedVoteNumber = voteList[0].size();
+    for (int i = 0; i<candidates; i++) {
+        if (voteList[i].size()!=tiedVoteNumber) {
+            isTie = 0;
+        }
+    }
+    if (isTie) {
+        for (int j; j<candidates; j++) {
+            for (int k = 0; k < candidateList[j].length(); j++) {
+                cout << candidateList[j][k];
+            }
+            cout << endl;
+        }
+        return 0;
+    }
+    else
+        return -1;
+    
 }
 // -------------
 // checkLosers
@@ -160,7 +185,7 @@ void checkLosers (std::vector<std::vector<std::vector<int>>>& voteList, int vote
 // -------------
 // revote
 // -------------
-void revote(std::vector<std::vector<std::vector<int>>>& voteList, int voteCounter, int candidates, int& loserCounter, std::vector<int>& loserList){
+void revote(std::vector<std::vector<std::vector<int>>>& voteList, int voteCounter, int& candidates, int& loserCounter, std::vector<int>& loserList){
     loserList.push_back(-1);
     for (i = 0; i< loserCounter; i++) {
         int currentLoser = LoserList[i];
@@ -181,6 +206,8 @@ void revote(std::vector<std::vector<std::vector<int>>>& voteList, int voteCounte
             voteList[currentLoser].erase(voteList[currentLolser].begin();
             
         }
+        voteList.erase(voteList.begin()+currentLoser-1);
+        candidates--;
     }
 }
 
@@ -217,3 +244,7 @@ void voting_solve (std::istream& r, std::ostream& w) {
     for (int i=0; i<testNumber; i++) {
         voting_eval(r,w);
     }
+
+
+
+
